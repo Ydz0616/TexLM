@@ -1,15 +1,27 @@
-DSL_GRAMMAR = """
-start: transpose(start)
-        | inverse(start)
-        | multiply(start, start)
-        | add(start, start)
-        | "[" MATRIX "]"
+# dsl/grammar.py
+DSL_GRAMMAR = r"""
+// ---------- Terminals ----------
+LBRACK: "["
+RBRACK: "]"
+LPAR: "("
+RPAR: ")"
+COMMA: ","
+SP: " "
 
-MATRIX: "[" ROW "]"
-        | "[" ROW "]" "," MATRIX
+NUMBER: /[-+]?(?:\d+(?:\.\d+)?|\.\d+)/
 
-ROW: ELEMENT 
-    | ELEMENT "," ROW
+// ---------- Rules ----------
+start: call | matrix
 
-ELEMENT: ^[-+]?(?:\d+\.?\d*|\.\d+)$
+call: fname LPAR start RPAR
+    | "multiply" LPAR start COMMA SP start RPAR
+    | "add"      LPAR start COMMA SP start RPAR
+
+fname: "transpose" | "inverse"
+
+// Matrix literal: [[1,2],[3,4]]
+matrix: LBRACK rows RBRACK
+rows: row (COMMA SP row)*
+row: LBRACK elements RBRACK
+elements: NUMBER (COMMA SP NUMBER)*
 """

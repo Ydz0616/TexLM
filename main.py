@@ -1,60 +1,54 @@
    # main.py
-import ast
-
-from config import get_client
-from llm_decompose import decompose_user_message
-from task_registry import get_task
+from config.config import get_client
 from dsl.parser import parse_dsl
 from renderers.latex import render_matrix_to_latex
+from renderers.decompose import decompose_user_message
 
-def normalize_matrix_literal(lit: str):
-    lit = lit.strip()
-    # formatting split -- could edit later for better support
-    if lit.startswith("(") and lit.endswith(")"):
-        lit = lit[1:-1]
-        lit = "[" + lit + "]"
-    return ast.literal_eval(lit)
+# NEW: generator.py
+from dsl.generator import generate_dsl
+
 
 def run_demo(user_msg: str):
+    # 1) Obtain Openai Client
     client = get_client()
 
-    # 1) LLM #1: detects instruction
+    # 1) Parse natural language input into structured components
     decomp = decompose_user_message(client, user_msg)
-    # decomp: Decomposition
+    # decomp contains: formatting, instruction, matrix
 
-    # 2) normalize/re-format the matrix
-    matrix = normalize_matrix_literal(decomp.matrix_data)
+    # 2) Generate DSL with instruction and matrix data
+    dsl = generate_dsl(client, decomp.instruction, decomp.matrix)
 
-    # 3) get the task according to what we detected
-    task = get_task(decomp.task_name)
+    # TODO: do the rest :
 
-    # 4) generate the DSL
-    dsl = task.build_dsl(decomp.model_dump(), matrix)
+    # # 5) pase DSL to AST
+    # ast_dsl = parse_dsl(dsl)
 
-    # 5) pase our dsl
-    ast_dsl = parse_dsl(dsl)
+    # # 6) Execute AST and do Calculation
+    # result = task.execute(ast_dsl, matrix)
 
-    # 6) execuate the job
-    result = task.execute(ast_dsl, matrix)
-
-    # 7) rendering
-    latex = render_matrix_to_latex(client, decomp.render_task, result)
+    # # 7) Implement Rendering
+    # latex = render_matrix_to_latex(client, decomp.formatting, result)
 
     return {
-        "decomposition": decomp.model_dump(),
+        "decomposition": {
+            "formatting": decomp.formatting,
+            "instruction": decomp.instruction,
+            "matrix": decomp.matrix,
+        },
         "dsl": dsl,
-        "result": result,
-        "latex": latex,
+        # "result": result,
+        # "latex": latex,
     }
 
 if __name__ == "__main__":
-    user_msg = "I have ([1,2],[3,4]). Please generate its transpose matrix, in LaTeX, and don't overflow."
+    # Example natural language input
+    user_msg = "give me a latex table with width = 70% for overleaf for inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7]) "
+    
     out = run_demo(user_msg)
-    print("=== decomposition ===")
-    print(out["decomposition"])
-    print("=== DSL ===")
+    print("=== Decomposition ===")
+    print(f"Formatting: {out['decomposition']['formatting']}")
+    print(f"Instruction: {out['decomposition']['instruction']}")
+    print(f"Matrix: {out['decomposition']['matrix']}")
+    print("\n=== DSL ===")
     print(out["dsl"])
-    print("=== result ===")
-    print(out["result"])
-    print("=== LaTeX ===")
-    print(out["latex"])

@@ -1,22 +1,18 @@
 # renderers/latex.py
 from openai import OpenAI
+from config.prompts import LATEX_RENDER_SYSTEM_PROMPT, LATEX_RENDER_USER_PROMPT_TEMPLATE
 
 def render_matrix_to_latex(client: OpenAI, render_task: str, matrix):
-    prompt = f"""
-You are a LaTeX formatter.
-
-User wants: {render_task}
-
-Here is the concrete matrix (Python list-of-lists):
-{matrix}
-
-Please output ONLY LaTeX code for OVERLEAF for this matrix.
-JUST THE MATRIX, NO $ ... $.
-Default to \\begin{{bmatrix}} ... \\end{{bmatrix}}.
-""".strip()
+    user_prompt = LATEX_RENDER_USER_PROMPT_TEMPLATE.format(
+        render_task=render_task,
+        matrix=matrix
+    )
 
     resp = client.responses.create(
         model="gpt-4o-mini",
-        input=prompt,
+        input=[
+            {"role": "system", "content": LATEX_RENDER_SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ],
     )
     return resp.output[0].content[0].text.strip()
