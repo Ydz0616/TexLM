@@ -43,9 +43,11 @@ def run_demo(user_msg: str):
 
 if __name__ == "__main__":
     # Example natural language input
-    user_msg = "give me a latex table with width = 70% for overleaf for inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7]) "
+    user_msg = "give me a latex table of the inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7]) "
     
     out = run_demo(user_msg)
+    print("=== User Message ===")
+    print(f"User Message:{user_msg}")
     print("=== Decomposition ===")
     print(f"Formatting: {out['decomposition']['formatting']}")
     print(f"Instruction: {out['decomposition']['instruction']}")

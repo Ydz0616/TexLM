@@ -34,6 +34,7 @@ DECOMPOSE_SYSTEM_PROMPT = (
     "- If user says 'inverse of transpose', output 'transpose then inverse'\n"
     "\n"
     "MATRIX RULES:\n"
+     "- YOU MUST MAKE SURE THE NUMBERS ARE CORRECT\n"
     "- Extract matrix data accurately from any format: parentheses, brackets, embedded in text\n"
     "- Normalize to Python list format [[...], [...]] when possible\n"
     "- Convert parentheses to brackets: '([1,2],[3,4])' → '[[1,2],[3,4]]'\n"
