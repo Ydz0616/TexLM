@@ -1,147 +1,258 @@
-# Matrix-DSL LLM Demo
+# TexLM: Matrix Operations with Natural Language
 
-This repo is a small, modular demo that shows how to use OpenAI's **Responses API** together with a tiny matrix DSL.
+A modular system that uses LLMs to parse natural language matrix operation requests, generate a domain-specific language (DSL), and render results. Built with OpenAI's Responses API and structured outputs.
 
-The idea is:
+## Architecture Overview
 
-1. **LLM #1 – decomposition**  
-   We send the raw user message to the LLM and ask it to *structure* it.  
-   The model must return:
-   - `matrix_data`: the matrix the user mentioned (normalized to something like `[[1,2],[3,4]]`)
-   - `task_name`: which operation to run, e.g. `transpose`, `matmul`, `add`
-   - `task_args` (optional): extra parameters for the task
-   - `render_task`: how the user wants to see the result (e.g. “in LaTeX”)
+The system follows a clean pipeline:
 
-2. **Task routing**  
-   Based on `task_name` we look up a corresponding Task class (see `task_registry.py`).  
-   Each Task knows how to:
-   - build a concrete DSL string (e.g. `transpose((2, 3, float), (3, 2, float))`)
-   - execute it (check shapes, run Python, return the new matrix)
+1. **Natural Language Decomposition**  
+   Parse user's natural language input into structured components:
+   - `formatting`: How the output should be formatted (e.g., "latex table with width = 70%")
+   - `instruction`: Matrix operations in clear sequence (e.g., "transpose then inverse")
+   - `matrix`: Matrix data normalized to Python list format
 
-3. **DSL layer**  
-   The DSL is intentionally tiny. For now it supports (at least) `transpose`.  
-   Parsing happens in `dsl/parser.py`, execution in `dsl/executor.py`.  
-   This makes it easy to add more matrix ops without changing the main script.
+2. **DSL Generation**  
+   Generate a grammar-constrained DSL program from the instruction and matrix data.  
+   The DSL supports operations like `transpose`, `inverse`, `multiply`, `add` with nested compositions.
 
-4. **LLM #3 – rendering**  
-   After executing the matrix operation, we ask the LLM to render the result in LaTeX  
-   (see `renderers/latex.py`). This keeps formatting concerns out of the DSL.
+3. **DSL Execution** (Future)  
+   Parse the DSL into AST and execute the matrix operations.
+
+4. **Rendering** (Future)  
+   Format the result matrix according to the formatting requirements (e.g., LaTeX table).
 
 ---
 
-## Project layout
+## Project Structure
 
 ```text
-project/
-├── main.py              # entry point: glue everything together
-├── config.py            # loads env, creates OpenAI client
-├── schemas.py           # pydantic models for LLM structured output
-├── llm_decompose.py     # LLM #1: user message -> structured Decomposition
-├── task_registry.py     # maps task_name -> concrete Task class
-├── tasks/
-│   ├── __init__.py
-│   ├── base.py          # BaseTask: every task must implement build_dsl + execute
-│   └── transpose.py     # example task, currently supported
-├── dsl/
-│   ├── __init__.py
-│   ├── parser.py        # turns DSL string into a small AST/dict
-│   └── executor.py      # actually runs the operation in Python
-├── renderers/
-│   ├── __init__.py
-│   └── latex.py         # LLM #3: matrix -> LaTeX
-└── openai_key.env       # NOT committed, contains OPENAI_API_KEY
+TexLM/
+├── main.py                    # Entry point: orchestrates the pipeline
+├── config/                    # Configuration and prompts
+│   ├── __init__.py           # Module exports
+│   ├── config.py             # OpenAI client setup, env loading
+│   └── prompts.py            # Centralized LLM prompts (all hardcoded prompts here)
+├── renderers/                 # LLM-based rendering and decomposition
+│   ├── decompose.py          # Natural language → structured Decomposition
+│   └── latex.py              # Matrix → LaTeX formatting
+├── dsl/                       # Domain-Specific Language
+│   ├── grammar.py            # Lark grammar definition for DSL
+│   ├── generator.py          # LLM-based DSL generation (grammar-constrained)
+│   ├── parser.py             # DSL string → AST (for future execution)
+│   └── executor.py           # AST execution (for future implementation)
+├── tasks/                     # Task execution (for future use)
+│   ├── base.py               # BaseTask abstract class (execute method)
+│   └── transpose.py          # Example task implementation
+├── requirements.txt          # Python dependencies
+├── openai_key.env            # API key (not committed)
+└── README.md                  # This file
 ```
 
 ---
 
 ## Prerequisites
 
-- Python 3.10+ (3.12 is fine)
-- `pip install -r requirements.txt` (at least `openai`, `python-dotenv`, `pydantic`)
-- An OpenAI API key
+- Python 3.10+ (3.12 recommended)
+- OpenAI API key
+- Dependencies: `pip install -r requirements.txt`
+
+Required packages:
+- `openai` - OpenAI API client
+- `python-dotenv` - Environment variable loading
+- `pydantic` - Structured data validation
 
 ---
 
-## Environment setup
+## Setup
 
-Create a file called **`openai_key.env`** in the project root:
+### 1. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Configure API Key
+
+Create `openai_key.env` in the project root:
 
 ```env
 OPENAI_API_KEY=sk-your-key-here
 ```
 
-We deliberately **do not** commit this file (see `.gitignore` below).
+**Important**: This file is not committed to git. The `config/config.py` loads it automatically.
 
-In `config.py` we load it with:
-
-```python
-from dotenv import load_dotenv
-load_dotenv("openai_key.env")
-```
-
-Then we create the client:
-
-```python
-from openai import OpenAI
-client = OpenAI()
-```
-
-Because the key is already in the environment, we don’t have to pass it manually.
-
----
-
-## Running the demo
-
-From the project directory:
+### 3. Run the Demo
 
 ```bash
 python main.py
 ```
 
-You should see output like:
+Example output:
 
 ```text
-=== decomposition ===
-{'matrix_data': '[[1,2],[3,4]]', 'task_name': 'transpose', 'render_task': 'in LaTeX', ...}
-=== DSL ===
-transpose((2, 2, float), (2, 2, float))
-=== result ===
-[[1, 3], [2, 4]]
-=== LaTeX ===
-\begin{bmatrix}
-...
-\end{bmatrix}
-```
+=== User Message ===
+User Message: give me a latex table of the inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7])
 
-(Exact output depends on the model.)
+=== Decomposition ===
+Formatting: latex table
+Instruction: multiply then transpose then inverse
+Matrix: [[1,2],[3,4]]; [[4,5],[6,7]]
+
+=== DSL ===
+inverse(transpose(multiply([[1,2],[3,4]], [[4,5],[6,7]])))
+```
 
 ---
 
-## Adding a new task
+## How It Works
 
-1. Create a new file in `tasks/`, e.g. `tasks/matmul.py`.
-2. Inherit from `BaseTask` and implement:
-   - `build_dsl(...)`
-   - `execute(...)`
-3. Register it in `task_registry.py`:
+### Step 1: Natural Language Decomposition
 
+The system uses an LLM to parse natural language input into structured components:
+
+```python
+from renderers.decompose import decompose_user_message
+
+decomp = decompose_user_message(client, user_msg)
+# Returns: Decomposition(formatting="latex table", 
+#                        instruction="multiply then transpose then inverse",
+#                        matrix="[[1,2],[3,4]]; [[4,5],[6,7]]")
+```
+
+The LLM is instructed to:
+- Extract formatting requirements (defaults to "latex matrix" if unspecified)
+- Parse operation sequence correctly (handles natural language like "inverse of transpose")
+- Normalize matrix data to Python list format
+
+### Step 2: DSL Generation
+
+The system generates a grammar-constrained DSL program:
+
+```python
+from dsl.generator import generate_dsl
+
+dsl = generate_dsl(client, decomp.instruction, decomp.matrix)
+# Returns: "inverse(transpose(multiply([[1,2],[3,4]], [[4,5],[6,7]])))"
+```
+
+The DSL generator:
+- Uses OpenAI's grammar-constrained decoding to ensure valid DSL syntax
+- Supports nested operations: `transpose`, `inverse`, `multiply`, `add`
+- Handles multiple matrices automatically
+
+### Step 3: DSL Grammar
+
+The DSL is defined by a Lark grammar (see `dsl/grammar.py`):
+
+```
+start: call | matrix
+
+call: fname LPAR start RPAR
+    | "multiply" LPAR start COMMA SP start RPAR
+    | "add"      LPAR start COMMA SP start RPAR
+
+fname: "transpose" | "inverse"
+
+matrix: [[1,2],[3,4]]  # Python list format
+```
+
+Valid DSL examples:
+- `transpose([[1,2],[3,4]])`
+- `inverse(transpose([[1,2],[3,4]]))`
+- `multiply([[1,2],[3,4]], [[5,6],[7,8]])`
+- `transpose(multiply([[1,0],[2,3]], [[4],[5]]))`
+
+---
+
+## Configuration
+
+### Centralized Prompts
+
+All LLM prompts are centralized in `config/prompts.py` for easy maintenance:
+
+- `DECOMPOSE_SYSTEM_PROMPT` - Instructions for natural language decomposition
+- `DSL_GENERATOR_SYSTEM_PROMPT` - Instructions for DSL generation
+- `LATEX_RENDER_SYSTEM_PROMPT` - Instructions for LaTeX rendering
+- Field descriptions for structured outputs
+
+### Client Configuration
+
+The OpenAI client is configured in `config/config.py`:
+
+```python
+from config.config import get_client
+
+client = get_client()  # Returns OpenAI() with API key from env
+```
+
+---
+
+## Extending the System
+
+### Adding New Operations
+
+To add a new matrix operation (e.g., `determinant`):
+
+1. **Update the DSL grammar** (`dsl/grammar.py`):
    ```python
-   from tasks.matmul import MatmulTask
-
-   TASK_REGISTRY = {
-       "transpose": TransposeTask,
-       "matmul": MatmulTask,
-   }
+   fname: "transpose" | "inverse" | "determinant"
    ```
 
-4. Update the system prompt in `llm_decompose.py` to include `"matmul"` in the allowed task names so the LLM can pick it.
+2. **Update prompts** (`config/prompts.py`):
+   - Add examples in `DSL_GENERATOR_FEW_SHOT`
+   - Update instruction parsing rules in `DECOMPOSE_INSTRUCTION_DESCRIPTION`
 
-That’s it — you don’t have to touch `main.py`.
+3. **Implement execution** (future):
+   - Add executor function in `dsl/executor.py`
+   - Update `dsl/parser.py` if needed
+
+### Customizing Prompts
+
+Edit `config/prompts.py` to modify:
+- How natural language is parsed
+- How DSL is generated
+- How results are formatted
+
+All prompts are hardcoded constants for easy maintenance and version control.
+
+---
+
+## Future Work
+
+The current implementation focuses on:
+- ✅ Natural language parsing
+- ✅ DSL generation with grammar constraints
+- 🔄 DSL parsing to AST (parser exists, needs integration)
+- 🔄 Matrix operation execution (executor exists, needs integration)
+- 🔄 LaTeX rendering (renderer exists, needs integration)
 
 ---
 
 ## Notes
 
-- We use *structured outputs* (`client.responses.parse(...)`) so that the LLM returns data we can feed directly into Python/Pydantic.
-- If you start getting schema errors from the API, check `schemas.py` first — structured outputs are strict about the JSON shape.
-- This repo is just a demo; in a real system you would also log all raw LLM responses for debugging.
+- **Structured Outputs**: We use OpenAI's `responses.parse()` for reliable structured data extraction
+- **Grammar Constraints**: DSL generation uses grammar-constrained decoding to ensure valid syntax
+- **Prompt Management**: All prompts are centralized in `config/prompts.py` for easy updates
+- **Error Handling**: The system handles ambiguous user input by making clear, specific decisions
+- **Modularity**: Each component (decomposition, generation, execution, rendering) is independent
+
+---
+
+## Example Usage
+
+```python
+from main import run_demo
+
+user_msg = "give me a latex table of the inverse of the transpose of matrix ([1,2] ,[3,4])"
+result = run_demo(user_msg)
+
+print(result["decomposition"])  # Structured parsing result
+print(result["dsl"])             # Generated DSL program
+```
+
+---
+
+## License
+
+This is a demo project for educational purposes.
