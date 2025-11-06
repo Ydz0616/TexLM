@@ -1,14 +1,16 @@
    # main.py
 from config.config import get_client
-from dsl.parser import parse_dsl
+from dsl.evaluate import evaluate
 from renderers.latex import render_matrix_to_latex
 from renderers.decompose import decompose_user_message
+import ast
 
 # NEW: generator.py
 from dsl.generator import generate_dsl
 
 
 def run_demo(user_msg: str):
+
     # 1) Obtain Openai Client
     client = get_client()
 
@@ -21,11 +23,16 @@ def run_demo(user_msg: str):
 
     # TODO: do the rest :
 
-    # # 5) pase DSL to AST
-    # ast_dsl = parse_dsl(dsl)
+    # 5) pase DSL to AST
+    program_ast = ast.parse(dsl)
 
-    # # 6) Execute AST and do Calculation
-    # result = task.execute(ast_dsl, matrix)
+    # 6) Evaluate AST and do Calculation
+    try:
+        result = evaluate(program_ast)
+    except Exception as e:
+        print("Caught unexpected error:", type(e).__name__, e)
+        return None
+        # TODO: maybe feed this back into the LLM (something about the program was wrong)
 
     # # 7) Implement Rendering
     # latex = render_matrix_to_latex(client, decomp.formatting, result)
@@ -37,6 +44,7 @@ def run_demo(user_msg: str):
             "matrix": decomp.matrix,
         },
         "dsl": dsl,
+        "result": result,
         # "result": result,
         # "latex": latex,
     }
@@ -54,3 +62,5 @@ if __name__ == "__main__":
     print(f"Matrix: {out['decomposition']['matrix']}")
     print("\n=== DSL ===")
     print(out["dsl"])
+    print("\n=== Result ===")
+    print(out["result"])
