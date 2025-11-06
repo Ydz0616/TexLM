@@ -1,6 +1,5 @@
    # main.py
 from config.config import get_client
-from dsl.parser import parse_dsl
 from dsl.evaluate import evaluate
 from renderers.latex import render_matrix_to_latex
 from renderers.decompose import decompose_user_message
@@ -11,7 +10,6 @@ from dsl.generator import generate_dsl
 
 
 def run_demo(user_msg: str):
-    # tree = ast.parse("[[1,2],[3,4]]")
 
     # 1) Obtain Openai Client
     client = get_client()
