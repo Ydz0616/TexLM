@@ -15,7 +15,7 @@ def visit_node(node) -> np.ndarray:
         case ast.List():  # a matrix
             return visit_list(node)
         case _:
-            pass # TODO: ERROR
+            assert False, f"Unrecognized ast node: {node}"
 
 
 def visit_list_helper(element):
@@ -25,7 +25,7 @@ def visit_list_helper(element):
         case ast.List():
             return [visit_list_helper(e) for e in element.elts]
         case _:
-            pass # TODO: ERROR
+            assert False, f"Unrecognized member of list: {element}"
 
 def visit_list(node : ast.List) -> np.ndarray:
     list = visit_list_helper(node)
@@ -42,7 +42,7 @@ def visit_call(node : ast.Call) -> np.ndarray:
         case "multiply":
             return multiply(node)
         case _:
-            pass # TODO: ERROR
+            assert False, f"Unrecognized matrix operation: {node.func.id}"
 
 
 
@@ -51,7 +51,8 @@ def visit_call(node : ast.Call) -> np.ndarray:
 def transpose(node : ast.Call) -> np.ndarray:
     assert len(node.args) == 1, "A transpose operation was not given one argument"
     matrix = visit_node(node.args[0])
-    return [list(row) for row in zip(*matrix)]
+    matrix_transpose = np.transpose(matrix)
+    return matrix_transpose
 
 def inverse(node : ast.Call) -> np.ndarray:
     assert len(node.args) == 1, "An inverse operation was not given one argument"
