@@ -1,7 +1,7 @@
 import ast
 import numpy as np
 
-def evaluate(ast_object : ast.Module) -> list[float | int]:
+def evaluate(ast_object : ast.Module) -> np.ndarray:
     assert isinstance(ast_object, ast.Module), "Trying to evaulate something that is not an ast module"
     assert len(ast_object.body) == 1, "There is more than one body in the ast module"
     np_matrix = visit_node(ast_object.body[0].value)
