@@ -1,5 +1,6 @@
    # main.py
 from config.config import get_client
+from dsl.verify import verify
 from dsl.evaluate import evaluate
 from renderers.latex import render_matrix_to_latex
 from renderers.decompose import decompose_user_message
@@ -25,6 +26,17 @@ def run_demo(user_msg: str):
     # 2) Generate DSL with instruction and matrix data
     print(f"--- Genrating DSL ---")
     dsl = generate_dsl(client, decomp.instruction, decomp.matrix)
+
+    # NEW: VERIFY DSL WITH LLM 
+    verification = verify(client=client, model="gpt-4o",user_instruction=decomp.instruction, dsl_code=dsl)
+    if not verification["is_valid"]:
+        print(f"\n❌ [BLOCKING ERROR] DSL Mismatch!")
+        print(f"   User asked for: {decomp.instruction}")
+        print(f"   AI generated:   {dsl}")
+        print(f"   Verifier Analysis: {verification['explanation']}")
+        # 这里直接 return，不要继续往下算，否则就会算出上面那个“正确但无关”的结果
+        return None
+    
     program_ast = ast.parse(dsl)
     print(f"--- The Generated DSL is {dsl} ---")
 

@@ -98,6 +98,35 @@ DSL_GENERATOR_TOOL_DESCRIPTION = (
 
 
 # ============================================================================
+# DSL Verification Prompts (dsl/verifier.py)
+# ============================================================================
+
+
+DSL_VERIFICATION_PROMPT = """
+
+You are a math expert and rigorous code reviewer for a Matrix Operation DSL.
+Your goal is to verify if the generated DSL matches the User's intent.
+
+DSL Grammar:
+- add(A, B) -> Matrix Addition
+- multiply(A, B) -> Matrix Multiplication
+- transpose(A) -> Transpose
+- inverse(A) -> Inverse
+
+Output Format:
+EXPLANATION: [Explain what the DSL does in 1 concise sentence]
+MATCH: [TRUE or FALSE]
+"""
+
+VERIFY_USER_PROMPT_TEMPLATE = """User Instruction: "{user_instruction}"
+Generated DSL: "{dsl_code}"
+
+Task:
+1. Explain the DSL logic.
+2. Check if it MATCHES the user's instruction (Look out for any kind of misalignment errors!).
+3. Return MATCH: TRUE or MATCH: FALSE."""
+
+# ============================================================================
 # LaTeX Rendering Prompts (renderers/latex.py)
 # ============================================================================
 
