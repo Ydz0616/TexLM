@@ -7,68 +7,52 @@ All hardcoded prompts should be moved here for easy maintenance and updates.
 # ============================================================================
 # Decomposition Prompts (renderers/decompose.py)
 # ============================================================================
+# config/prompts.py
 
-DECOMPOSE_SYSTEM_PROMPT = (
-    "You are an expert at parsing natural language requests about matrix operations. "
-    "Your task is to extract three components from user input:\n"
-    "1. FORMATTING: How the output should be formatted (LaTeX table, LaTeX matrix, etc.)\n"
-    "2. INSTRUCTION: The sequence of matrix operations to perform\n"
-    "3. MATRIX: The matrix data (can be single or multiple matrices)\n\n"
-    "CRITICAL REQUIREMENTS:\n"
-    "- Even if the user's description is vague, unclear, or grammatically incorrect, you MUST output clear, unambiguous values\n"
-    "- Never output vague or placeholder values - always make specific, concrete decisions\n"
-    "\n"
-    "FORMATTING RULES:\n"
-    "- Extract ALL formatting details: table vs matrix, width, alignment, LaTeX environment, etc.\n"
-    "- Examples: 'latex table with width = 70% for overleaf' → 'latex table with width = 70% for overleaf'\n"
-    "- If formatting is not specified, default to 'latex matrix'\n"
-    "- Be specific: 'LaTeX' → 'latex matrix', 'table' → 'latex table'\n"
-    "\n"
-    "INSTRUCTION RULES:\n"
-    "- Parse operations in CORRECT mathematical order (left-to-right application)\n"
-    "- Natural language 'inverse of the transpose' = 'transpose then inverse' (operations apply from inside out)\n"
-    "- Natural language 'A then B' = 'A then B' (explicit sequential order)\n"
-    "- Always use ' then ' to separate operations: 'transpose then inverse', 'multiply then transpose then inverse'\n"
-    "- Normalize operation names: 'invert' → 'inverse', 'multiply' → 'multiply', 'transpose' → 'transpose'\n"
-    "- If user says 'transpose of matrix', output 'transpose'\n"
-    "- If user says 'inverse of transpose', output 'transpose then inverse'\n"
-    "\n"
-    "MATRIX RULES:\n"
-     "- YOU MUST MAKE SURE THE NUMBERS ARE CORRECT\n"
-    "- Extract matrix data accurately from any format: parentheses, brackets, embedded in text\n"
-    "- Normalize to Python list format [[...], [...]] when possible\n"
-    "- Convert parentheses to brackets: '([1,2],[3,4])' → '[[1,2],[3,4]]'\n"
-    "- Handle multiple matrices: 'A=[[1,2]]; B=[[3,4]]' or 'matrix A is [[1,2]] and matrix B is [[3,4]]'\n"
-    "- Extract matrices even from verbose descriptions\n"
-    "- Preserve exact numeric values - don't round or approximate\n"
-)
+# ============================================================================
+# Decomposition Prompts (renderers/decompose.py)
+# ============================================================================
+
+DECOMPOSE_SYSTEM_PROMPT = """You are an expert parsing engine for matrix operations.
+Extract three structured components from the user's natural language request.
+
+1. **FORMATTING**: The visual output style (e.g., 'latex table', 'bmatrix').
+   - Default to 'latex matrix' if unspecified.
+   - Be specific (e.g., capture 'width=70%', 'for overleaf').
+
+2. **MATRIX**: The raw matrix data.
+   - Normalize to Python lists: `[[1,2],[3,4]]`.
+   - Capture ALL matrices involved (e.g., A and B).
+   - PRESERVE exact numerical values.
+
+3. **INSTRUCTION**: The execution sequence of operations.
+   - **Rule 1 (Binary Ops First):** If there are multiple matrices, identifying how they combine (multiply, add) is ALWAYS the first step.
+   - **Rule 2 (Inside-Out):** Parse natural language from the innermost operation to the outermost.
+     - "Inverse of the Transpose of the Multiplication" -> `multiply then transpose then inverse`
+     - "Transpose of A" -> `transpose`
+   - **Rule 3 (Format):** Use ' then ' as a separator.
+   - **Rule 4 (Keywords):** Normalize to: `inverse`, `transpose`, `multiply`, `add`, `determinant`.
+"""
 
 # Field descriptions for Decomposition schema
 DECOMPOSE_FORMATTING_DESCRIPTION = (
-    "Formatting requirements for the output. "
-    "Extract all formatting details clearly, e.g., 'latex table with width = 70% for overleaf', "
-    "'LaTeX matrix', 'plain text', etc. "
-    "If user doesn't specify formatting, use 'latex matrix' as default. "
-    "Must be clear and specific."
+    "Output format details. E.g., 'latex table', 'latex matrix', 'raw text'. "
+    "Default: 'latex matrix'."
 )
 
 DECOMPOSE_INSTRUCTION_DESCRIPTION = (
-    "Matrix operation instructions in clear, sequential format. "
-    "Examples: 'transpose', 'inverse then transpose', 'multiply then transpose then inverse'. "
-    "Must be unambiguous and clear about the order of operations. "
-    "If user says 'inverse of the transpose', parse as 'transpose then inverse' (operations are applied right-to-left in natural language). "
-    "Operations should be separated by ' then ' for clarity."
+    "Sequence of operations in logical execution order (Inside-Out). "
+    "Start with the base operation (like 'multiply' or 'add' for two matrices). "
+    "Then apply subsequent operations. "
+    "Separator: ' then '. "
+    "Example: 'multiply then transpose then inverse'."
 )
 
 DECOMPOSE_MATRIX_DESCRIPTION = (
-    "Matrix data in string format. "
-    "Can be single matrix like '[[1,2],[3,4]]' or '([1,2],[3,4])', "
-    "or multiple matrices like 'A=[[1,2],[3,4]]; B=[[5,6],[7,8]]'. "
-    "Normalize to Python list format [[...], [...]] when possible. "
-    "If user provides matrices in parentheses, convert to brackets. "
-    "Must extract matrix data clearly and accurately."
+    "String containing all matrix data. "
+    "Normalize to Python list-of-lists format e.g., '[[1,2],[3,4]]'. "
+    "If multiple matrices, separate clearly or combine in one string."
 )
-
 
 # ============================================================================
 # DSL Generation Prompts (dsl/generator.py)

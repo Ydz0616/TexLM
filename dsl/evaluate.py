@@ -45,7 +45,6 @@ def visit_call(node : ast.Call) -> np.ndarray:
             assert False, f"Unrecognized matrix operation: {node.func.id}"
 
 
-
 # Operations
 
 def transpose(node : ast.Call) -> np.ndarray:

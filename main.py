@@ -29,12 +29,15 @@ def run_demo(user_msg: str):
 
     # NEW: VERIFY DSL WITH LLM 
     verification = verify(client=client, model="gpt-4o",user_instruction=decomp.instruction, dsl_code=dsl)
+    # TODO: 1. Multiple Rounds of Verification if not successful
+    # TODO: 2. Include user in the loop if still not successful after multiple rounds of verification/
+
+
     if not verification["is_valid"]:
         print(f"\n❌ [BLOCKING ERROR] DSL Mismatch!")
         print(f"   User asked for: {decomp.instruction}")
         print(f"   AI generated:   {dsl}")
         print(f"   Verifier Analysis: {verification['explanation']}")
-        # 这里直接 return，不要继续往下算，否则就会算出上面那个“正确但无关”的结果
         return None
     
     program_ast = ast.parse(dsl)
@@ -52,7 +55,7 @@ def run_demo(user_msg: str):
 
         # get the regex constraint
         result_latex_core = generate_constraint(result_matrix)
-
+        print(f"---result latex regex: {result_latex_core} --- ")
 
     except Exception as e:
         print("Caught unexpected error:", type(e).__name__, e)
@@ -79,7 +82,8 @@ def run_demo(user_msg: str):
 
 if __name__ == "__main__":
     # Example natural language input
-    user_msg = "give me a latex table of the inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7]) "
+    user_msg = """Give me a latex matrix of the inverse of the transpose
+    of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7]) """
     
     out = run_demo(user_msg)
     if out and "error" not in out:
