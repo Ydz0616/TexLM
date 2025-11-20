@@ -1,6 +1,9 @@
 import ast
 import numpy as np
 
+# TODO: negative numbers support 
+
+
 def evaluate(ast_object : ast.Module) -> np.ndarray:
     assert isinstance(ast_object, ast.Module), "Trying to evaulate something that is not an ast module"
     assert len(ast_object.body) == 1, "There is more than one body in the ast module"
