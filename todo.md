@@ -32,6 +32,8 @@
 ### Week 4 — Nov 21 - Nov 28 (Robustness & Demo)
 **Focus: System Stability & Visualization**
 
+- [ ] **Function Testing**:
+    - [ ] Extensive testing on the functions we implemented.
 - [ ] **Error Handling & Robustness**:
     - [ ] Update `evaluate.py` to catch Singular Matrix / Dimension Mismatch errors.
     - [ ] Update prompt to reject irrelevant inputs (e.g. "I want to be a carpenter").
