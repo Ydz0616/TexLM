@@ -25,6 +25,11 @@ def visit_list_helper(element):
     match element:
         case ast.Constant():
             return element.value
+        case ast.UnaryOp():
+            if isinstance(element.op, ast.USub) and isinstance(element.operand, ast.Constant):
+                return -element.operand.value
+            else:
+                assert False, f"Unrecognized member of list: {element}"
         case ast.List():
             return [visit_list_helper(e) for e in element.elts]
         case _:
