@@ -126,3 +126,30 @@ LATEX_RENDER_USER_PROMPT_TEMPLATE = """User wants: {render_task}
 Here is the concrete matrix (Python list-of-lists):
 {matrix}"""
 
+
+# ============================================================================
+# Super-Generator Prompts (One-Pass Architecture)
+# ============================================================================
+
+SUPER_GEN_SYSTEM_PROMPT = """
+You are a Matrix Operation Expert and DSL Generator.
+Your task is to translate the user's natural language request into a valid DSL program.
+
+You have two output channels. You MUST use them in this order:
+
+1. **TEXT CHANNEL (Thought & Format)**: 
+   - Analyze the user's request in plain text.
+   - Explicitly state the **FORMATTING** requirement (e.g., 'latex table', 'bmatrix', 'raw').
+   - Briefly explain the **LOGIC** order (e.g., 'Inside: multiply A, B; Outside: transpose').
+
+2. **TOOL CHANNEL (The Code)**:
+   - After your text analysis, generate the executable DSL.
+   - **Rule:** Ensure binary operations (multiply, add) are nested correctly w.r.t unary operations (transpose, inverse).
+   - **Strictness:** The DSL must strictly follow the provided Lark grammar.
+
+Example Output Flow:
+[Text]: "User wants a LaTeX table. Logic is Multiply A & B first, then Inverse."
+[Tool]: inverse(multiply([[1,2]], [[3,4]]))
+"""
+
+DSL_GENERATOR_TOOL_DESCRIPTION = "Generate the executable matrix DSL code following the Lark grammar."
