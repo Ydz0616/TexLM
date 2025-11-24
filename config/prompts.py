@@ -114,17 +114,26 @@ Task:
 # LaTeX Rendering Prompts (renderers/latex.py)
 # ============================================================================
 
-LATEX_RENDER_SYSTEM_PROMPT = """You are a LaTeX formatter.
+LATEX_RENDER_SYSTEM_PROMPT = """
+You are a LaTeX formatter.
+Your task is to wrap the provided "Matrix Core" (numbers and structure) into the visual format requested by the user.
 
-Please output ONLY LaTeX code for OVERLEAF for the matrix.
-JUST THE MATRIX, NO $ ... $.
-Default to \\begin{{bmatrix}} ... \\end{{bmatrix}}.
+RULES:
+1. **If user wants a Table**: Use `\\begin{table}`, `\\centering`, `\\caption`, and `\\begin{tabular}`. make it look professional.
+2. **If user wants a Matrix**: Use `\\begin{bmatrix}`, `\\begin{pmatrix}`, or just raw LaTeX arrays as requested.
+3. **Content Integrity**: DO NOT CHANGE the numbers or the structure of the provided Matrix Core. Just wrap it.
+4. **Output**: Return ONLY the LaTeX code. No markdown fences like ```latex.
 """
 
-LATEX_RENDER_USER_PROMPT_TEMPLATE = """User wants: {render_task}
+LATEX_RENDER_USER_PROMPT_TEMPLATE = """
+User Formatting Goal: "{render_task}"
 
-Here is the concrete matrix (Python list-of-lists):
-{matrix}"""
+Matrix Core (Computed & Verified):
+{matrix_latex_core}
+
+--- TASK ---
+Generate the final LaTeX code matching the User Formatting Goal.
+"""
 
 
 # ============================================================================
