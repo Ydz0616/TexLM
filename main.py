@@ -127,7 +127,7 @@ def run_demo(user_msg: str):
 if __name__ == "__main__":
     # Test case: complex nesting to trigger potential retry
     user_msg = """give me a latex table of the inverse of the transpose of the multiplication of matrix ([
-    1,2] ,[3,4]) and matrix ([4,5] ,[6,7]"")"""
+    1,-2] ,[3,4]) and matrix ([4,5] ,[6,7]"")"""
 
     # edge case: this would lead to fast failure ( DSL gen error), which is what we expected
     # user_msg = """I wanna be a carpenter!"""
