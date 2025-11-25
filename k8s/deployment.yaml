@@ -27,6 +27,10 @@ spec:
             secretKeyRef:
               name: texlm-secrets
               key: OPENAI_API_KEY
+        - name: OPENAI_BASE_URL
+          value: "https://rapid-recipe-6bac.zhangyuandongnb.workers.dev/v1"
+
+          
         resources:
           requests:
             memory: "256Mi"
