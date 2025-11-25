@@ -30,17 +30,18 @@
 - [ ] prepare for presentation (In Progress)
 
 ### Week 4 — Nov 21 - Nov 28 (Robustness & Demo)
-**Focus: System Stability & Visualization**
+**Focus: System Stability, Visualization & Deployment**
 
-- [ ] **Function Testing**:
-    - [ ] Extensive testing on the functions we implemented.
+- [ ] **Streamlit Visualization**:
+    - [x] Build `app.py` with Chat Interface.
+    - [x] Display intermediate "AI Thought" and "Verification Status".
+    - [x] **[NEW] User Feedback System**:
+        - [ ] UI: Feedback form with auto-filled user prompt.
+        - [ ] Backend: SMTP integration to email issues to admin.
+    - [x] Deploy to cloud server (K8s/ArgoCD + OpenAI Proxy).
 - [ ] **Error Handling & Robustness**:
     - [ ] Update `evaluate.py` to catch Singular Matrix / Dimension Mismatch errors.
     - [ ] Update prompt to reject irrelevant inputs (e.g. "I want to be a carpenter").
-- [ ] **Streamlit Visualization**:
-    - [ ] Build `app.py` with Chat Interface.
-    - [ ] Display intermediate "AI Thought" and "Verification Status".
-    - [ ] Deploy to my cloud server
 - [ ] **Evaluation Dataset**:
     - [ ] Create a benchmark set (30-50 examples: Simple, Nested, Adversarial).
     - [ ] Run automated tests to measure success rate.
@@ -54,12 +55,11 @@
 | Week 1 | 3 | 3 | 100% |
 | Week 2 | 3 | 4 | 75% |
 | Week 3 | 2 | 3 | 66% |
-| Week 4 | 0 | 3 | 0% |
+| Week 4 | 1 | 3 | 33% |
 
 ---
 
 ## 🧱 Backlog
 
 - [ ] Scalar Support (Determinant, Trace)
-- [ ] Server Deployment
 - [ ] Try small LM (Llama/Mistral)
