@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: texlm-app
+  namespace: texlm-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: texlm
+  template:
+    metadata:
+      labels:
+        app: texlm
+    spec:
+      containers:
+      - name: texlm-container
+        # IMPORTANT: use correct version number 
+        image: yz743/texlm:v0.1.0 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8501
+        env:
+        # read api key from k8 secret 
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: texlm-secrets
+              key: OPENAI_API_KEY
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
