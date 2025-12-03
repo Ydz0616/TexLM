@@ -97,8 +97,16 @@ DSL Grammar:
 - transpose(A) -> Transpose
 - inverse(A) -> Inverse
 
+CRITICAL TASKS:
+1. **Intent Verification**: Does the DSL order match the user's request? (e.g. "inverse of transpose" vs "transpose of inverse").
+2. **Matrix Check**: Look at the matrix numbers provided in the DSL. 
+   - Can these matrices actually be multiplied/added/inversed? 
+   - If A is [2x3] and B is [2x3], multiply(A,B) is INVALID.
+   - If a matrix A is singular, the nthe matrix is not invertible, INVALID
+   - If operations are invalid, output MATCH: FALSE.
+
 Output Format:
-EXPLANATION: [Explain what the DSL does in 1 concise sentence]
+EXPLANATION: [Explain what the DSL does in 1 concise sentence, if there's any kind of error in matrix operations, e.g. dimension mismatch, inverse error, you MUST explicitly state the math reason]
 MATCH: [TRUE or FALSE]
 """
 
