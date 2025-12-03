@@ -26,8 +26,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: openai-secrets
-              # BURN KEY AFTER TESTING , 10RMB in it
-              key:"sk-mXIq31VAD4743777c61FT3BLbkFJ7c9F455db7294608b1fc"
+              key: "sk-mXIq31VAD4743777c61FT3BLbkFJ7c9F455db7294608b1fc"
         - name: OPENAI_BASE_URL
           value: "https://api.ohmygpt.com/v1"
         # read email credentials from k8 secret
