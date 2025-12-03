@@ -1,5 +1,6 @@
 import streamlit as st
 import textwrap
+import time 
 from main import run_demo
 from utils.mailer import send_feedback_email  # Make sure utils/mailer.py exists
 
