@@ -23,10 +23,11 @@ spec:
         env:
         # read api key from k8 secret 
         - name: OPENAI_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: openai-secrets
-              key: OPENAI_API_KEY
+        - value: “sk-mXIq31VAD4743777c61FT3BLbkFJ7c9F455db7294608b1fc”
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: openai-secrets
+          #     key: OPENAI_API_KEY
         - name: OPENAI_BASE_URL
           value: "https://api.ohmygpt.com/v1"
         # read email credentials from k8 secret
