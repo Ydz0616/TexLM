@@ -16,18 +16,18 @@ spec:
       containers:
       - name: texlm-container
         # IMPORTANT: use correct version number 
-        image: yz743/texlm:v0.2.0 
+        image: yz743/texlm:v0.1.0 
         imagePullPolicy: Always
         ports:
         - containerPort: 8501
         env:
         # read api key from k8 secret 
         - name: OPENAI_API_KEY
-          value: "sk-5RXY5YNd380473970aE0T3BlBKFJb9d269d41CF14b1daeab"
-          # valueFrom:
-          #   secretKeyRef:
-          #     name: openai-secrets
-          #     key: OPENAI_API_KEY
+          # value: "sk-5RXY5YNd380473970aE0T3BlBKFJb9d269d41CF14b1daeab"
+          valueFrom:
+            secretKeyRef:
+              name: openai-secrets
+              key: OPENAI_API_KEY
         - name: OPENAI_BASE_URL
           value: "https://api.ohmygpt.com/v1"
         # read email credentials from k8 secret
