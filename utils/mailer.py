@@ -18,13 +18,13 @@ env_candidates = [
 def _load_env_file() -> Path:
     for candidate in env_candidates:
         if candidate.exists():
-            load_dotenv(candidate, override=True)
+            load_dotenv(candidate, override=False)
             return candidate
     found = find_dotenv()
     if found:
-        load_dotenv(found, override=True)
+        load_dotenv(found, override=False)
         return Path(found)
-    load_dotenv(env_candidates[0], override=True)
+    load_dotenv(env_candidates[0], override=False)
     return env_candidates[0]
 
 env_path = _load_env_file()

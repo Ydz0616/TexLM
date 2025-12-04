@@ -11,3 +11,6 @@ pip-delete-this-directory.txt
 .git/
 .gitignore
 .vscode/
+openai.env
+openai_key.env
+*.env
