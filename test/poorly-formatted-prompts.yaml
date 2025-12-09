@@ -1,0 +1,106 @@
+tests:
+  - prompt: |
+      compute a latex table of the multiplication of matrix ([[1, 2, 3]]) and matrix ([[4, 5], [6, 7]])
+    expected_reason: |
+      Matrix dimensions do not match: (1x3) cannot be multiplied with (2x2).
+
+  - prompt: |
+      show me a latex table of the inverse of matrix ([[1, 2], [2, 4]])
+    expected_reason: |
+      Matrix is singular because its rows are linearly dependent; inverse does not exist.
+
+  - prompt: |
+      generate a latex table of the transpose of matrix ([[1, 2], [3]])
+    expected_reason: |
+      Matrix is not rectangular; rows have inconsistent lengths.
+
+  - prompt: |
+      produce a latex table of the addition of matrix ([[1, 2], [3, 4]]) and matrix ([[5, 6, 7], [8, 9, 10]])
+    expected_reason: |
+      Cannot add matrices of different shapes: (2x2) vs (2x3).
+
+  - prompt: |
+      output a latex table of the multiplication of matrix ([[1, 2], [3, 4]]) and matrix ([[5, 6, 7]])
+    expected_reason: |
+      Inner dimensions do not match: (2x2) cannot multiply with (1x3).
+
+  - prompt: |
+      take the inverse of the transpose of matrix ([[1, 2, 3], [4, 5, 6]])
+    expected_reason: |
+      Transposed matrix is 3x2 and therefore non-square; cannot invert a non-square matrix.
+
+  - prompt: |
+      show me the inverse of the product of matrix ([[1, 0], [0, 0]]) and matrix ([[2, 2], [2, 2]])
+    expected_reason: |
+      Product is singular (zero row appears); inverse does not exist.
+
+  - prompt: |
+      compute a latex table of the addition of matrix ([[1, 2]]) and matrix ([[3], [4]])
+    expected_reason: |
+      Addition invalid: shapes (1x2) and (2x1) do not match.
+
+  - prompt: |
+      generate a latex table of the inverse of matrix ([[0]])
+    expected_reason: |
+      A 1x1 zero matrix has determinant 0; inverse does not exist.
+
+  - prompt: |
+      show me a latex table of the multiplication of matrix ([[1.1, -2.2], [3.3, 4.4]]) and matrix ([[5.5], [6.6], [7.7]])
+    expected_reason: |
+      Dimension mismatch: (2x2) cannot multiply with (3x1).
+
+  - prompt: |
+      compute the transpose of matrix ([[1, 2, 3], [4, 5]])
+    expected_reason: |
+      Matrix rows have inconsistent lengths; not a valid matrix.
+
+  - prompt: |
+      give me a latex table of the inverse of the addition of matrix ([[1, 2], [3, 4]]) and matrix ([[1, 1, 1], [1, 1, 1]])
+    expected_reason: |
+      Matrices have incompatible shapes (2x2) vs (2x3); cannot add.
+
+  - prompt: |
+      show me the multiplication of matrix ([[1, 2, 3]]) and matrix ([[4], [5]])
+    expected_reason: |
+      Matrix multiplication invalid: (1x3) cannot multiply with (2x1).
+
+  - prompt: |
+      compute a latex table of the inverse of matrix ([[1, 2, 3], [4, 5, 6]])
+    expected_reason: |
+      Cannot invert a non-square matrix (2x3).
+
+  - prompt: |
+      output a latex table of the addition of matrix ([[1]]) and matrix ([[2, 3]])
+    expected_reason: |
+      Addition invalid: shapes (1x1) vs (1x2).
+
+  - prompt: |
+      generate a latex table of the transpose of the product of matrix ([[1, 2], [3, 4], [5, 6]]) and matrix ([[7, 8]])
+    expected_reason: |
+      Multiplication invalid: (3x2) cannot multiply with (1x2); inner dimensions mismatch.
+
+  - prompt: |
+      show me a latex table of the inverse of the transpose of matrix ([[1, 0, 0], [0, 1]])
+    expected_reason: |
+      Transpose is 3x2; non-square matrices cannot be inverted.
+
+  - prompt: |
+      compute the addition of matrix ([[1, 2], [3, 4], [5, 6]]) and matrix ([[7, 8], [9, 10]])
+    expected_reason: |
+      Shapes differ: (3x2) vs (2x2); cannot add.
+
+  - prompt: |
+      invert the multiplication of matrix ([[1, 2], [3, 4]]) and matrix ([[0, 0], [0, 0]])
+    expected_reason: |
+      Product is the zero matrix, which is singular; inverse does not exist.
+
+  - prompt: |
+      produce a latex table of the inverse of the inverse of matrix ([[1, 2], [2, 4]])
+    expected_reason: |
+      Inner inverse fails: matrix is singular due to dependent rows.
+
+
+
+
+
+

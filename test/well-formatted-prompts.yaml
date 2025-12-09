@@ -1,0 +1,464 @@
+tests:
+  - prompt: |
+      give me a latex table of the inverse of the transpose of the multiplication of matrix ([
+      1,-2] ,[3,4]) and matrix ([4,5] ,[6,7])
+    expected_program: inverse(transpose(multiply([[1, -2], [3, 4]], [[4, 5], [6, 7]])))
+    answer: TODO
+    
+  - prompt: |
+      give me latex of the inverse of the multiplication of matrix ([2, 0], [1, -3]) and matrix ([5, -1], [7, 4])
+    expected_program: inverse(multiply([[2, 0], [1, -3]], [[5, -1], [7, 4]]))
+    answer: TODO
+    
+  - prompt: |
+      give me a latex table version of the transpose of matrix ([10, -4, 2], [3, 1, 7])
+    expected_program: transpose([[10, -4, 2], [3, 1, 7]])
+    answer: TODO
+    
+  - prompt: |
+      give me the product of matrix ([1, 2, 3], [4, 5, 6]) and matrix ([7, 8], [9, 10], [11, 12])
+    expected_program: multiply([[1, 2, 3], [4, 5, 6]], [[7, 8], [9, 10], [11, 12]])
+    answer: TODO
+    
+  - prompt: |
+      give me the inverse of the transpose of matrix ([6, 2], [9, -1])
+    expected_program: inverse(transpose([[6, 2], [9, -1]]))
+    answer: TODO
+    
+  - prompt: |
+      generate a latex table of the multiplication of matrix ([-1, 3], [4, 2]) and matrix ([8, -2], [5, 7]) and then take the transpose
+    expected_program: transpose(multiply([[-1, 3], [4, 2]], [[8, -2], [5, 7]]))
+    answer: TODO
+    
+  - prompt: |
+      generate latex of the inverse of the multiplication of matrix ([3, 2, 1], [1, 0, -1], [4, 5, 6]) and matrix ([1, 0, 0], [0, 2, 0], [0, 0, 3])
+    expected_program: inverse(multiply([[3, 2, 1], [1, 0, -1], [4, 5, 6]], [[1, 0, 0], [0, 2, 0], [0, 0, 3]]))
+    answer: TODO
+    
+  - prompt: |
+      generate a latex representation of matrix ([100]) multiplied by itself and then transposed
+    expected_program: transpose(multiply([[100]], [[100]]))
+    answer: TODO
+    
+  - prompt: |
+      generate the transpose of matrix ([1, -1, 2], [0, 5, -3])
+    expected_program: transpose([[1, -1, 2], [0, 5, -3]])
+    answer: TODO
+    
+  - prompt: |
+      generate a latex table of the inverse of matrix ([7, 4], [2, 3])
+    expected_program: inverse([[7, 4], [2, 3]])
+    answer: TODO
+    
+  - prompt: |
+      generate a latex table of the addition of matrix ([1, 0], [0, 1]) and matrix ([-5, 2], [8, -3]) and matrix ([2, 2], [1, 4])
+    expected_program: add(add([[1, 0], [0, 1]], [[-5, 2], [8, -3]]), [[2, 2], [1, 4]])
+    answer: TODO
+    
+  - prompt: |
+      can you output a latex table of the transpose of the multiplication of matrix ([2, 3, 4]) and matrix ([1], [0], [-2])
+    expected_program: transpose(multiply([[2, 3, 4]], [[1], [0], [-2]]))
+    answer: TODO
+    
+  - prompt: |
+      can you output the inverse of the multiplication of matrix ([3, 1], [5, -2]) and the transpose of matrix ([7, 8], [9, 6])?
+    expected_program: inverse(multiply([[3, 1], [5, -2]], transpose([[7, 8], [9, 6]])))
+    answer: TODO
+    
+  - prompt: |
+      can you output the sum of matrix ([12, -7], [4, 9]) and matrix ([0.5, -1], [3, 2])?
+    expected_program: add([[12, -7], [4, 9]], [[0.5, -1], [3, 2]])
+    answer: TODO
+    
+  - prompt: |
+      can you output a latex representation of the transpose of the inverse of matrix ([4, 1], [2, 3]).
+    expected_program: transpose(inverse([[4, 1], [2, 3]]))
+    answer: TODO
+    
+  - prompt: |
+      can you output latex of the multiplication of matrix ([1, 2], [3, 4], [5, 6]) and matrix ([7, 8, 9], [10, 11, 12])
+    expected_program: multiply([[1, 2], [3, 4], [5, 6]], [[7, 8, 9], [10, 11, 12]])
+    answer: TODO
+    
+  - prompt: |
+      can you output a latex representation of the inverse of the addition of matrix ([2, -1], [7, 3]) and matrix ([1, 4], [5, -2]) ?
+    expected_program: inverse(add([[2, -1], [7, 3]], [[1, 4], [5, -2]]))
+    answer: TODO
+    
+  - prompt: |
+      can you output a table of the transpose of the multiplication of matrix ([9, 0], [4, -6]) and matrix ([3, 1], [-2, 5])
+    expected_program: transpose(multiply([[9, 0], [4, -6]], [[3, 1], [-2, 5]]))
+    answer: TODO
+    
+  - prompt: |
+      show me a latex table of the multiplication of matrix ([1, -2, 3]) and the transpose of matrix ([4, 5, 6])
+    expected_program: multiply([[1, -2, 3]], transpose([[4, 5, 6]]))
+    answer: TODO
+    
+  - prompt: |
+      show me the inverse of matrix ([50, -20], [15, 6]) as a latex table.
+    expected_program: inverse([[50, -20], [15, 6]])
+    answer: TODO
+    
+  - prompt: |
+      show me the product of matrix ([3, 2], [1, 4]) and matrix ([2, -1], [0, 5]) and matrix ([1, 1], [1, -1]) as a latex table.
+    expected_program: multiply(multiply([[3, 2], [1, 4]], [[2, -1], [0, 5]]), [[1, 1], [1, -1]])
+    answer: TODO
+    
+  - prompt: |
+      show me a latex table of the transpose of matrix ([-3, 7, 8], [2, 0, -1], [9, 4, 6])
+    expected_program: transpose([[-3, 7, 8], [2, 0, -1], [9, 4, 6]])
+    answer: TODO
+    
+  - prompt: |
+      show me a table of the multiplication of matrix ([1, 3, 5], [2, 4, 6]) and matrix ([7, 9], [8, 10], [11, 13]) and then take the inverse
+    expected_program: inverse(multiply([[1, 3, 5], [2, 4, 6]], [[7, 9], [8, 10], [11, 13]]))
+    answer: TODO
+    
+  - prompt: |
+      show me latex of the inverse of the transpose of the addition of matrix ([2, 2], [1, 3]) and matrix ([4, -1], [6, 2]).
+    expected_program: inverse(transpose(add([[2, 2], [1, 3]], [[4, -1], [6, 2]])))
+    answer: TODO
+    
+  - prompt: |
+      show me latex of the addition of matrix ([1, -4], [2, 5]) and the inverse of matrix ([9, 3], [7, 2])?
+    expected_program: add([[1, -4], [2, 5]], inverse([[9, 3], [7, 2]]))
+    answer: TODO
+  
+  - prompt: |
+      generate a latex table of the inverse of the transpose of the addition of the multiplication of matrix ([[1.2, -3.4], [5.6, 7.8]]) and matrix ([[0.9, 1.1], [-2.2, 3.3]]) and the inverse of matrix ([[4.4, -5.5], [6.6, 7.7]])
+    expected_program: inverse(transpose(add(multiply([[1.2, -3.4], [5.6, 7.8]], [[0.9, 1.1], [-2.2, 3.3]]), inverse([[4.4, -5.5], [6.6, 7.7]]))))
+    answer: TODO
+
+  - prompt: |
+      output a latex table of the transpose of the inverse of the multiplication of the addition of matrix ([[3.14, 2.71, -1.11], [0.56, -8.2, 4.7], [9.9, 1.2, 3.4]]) and matrix ([[-1.3, 4.4, 2.2], [5.5, -6.6, 7.7], [8.8, -9.9, 0.1]]) with the transpose of matrix ([[1.1, 2.2, 3.3], [-4.4, 5.5, -6.6], [7.7, 8.8, 9.9]])
+    expected_program: 
+      transpose(inverse(multiply(add([[3.14, 2.71, -1.11], [0.56, -8.2, 4.7], [9.9, 1.2, 3.4]], [[3.14, 2.71, -1.11], [0.56, -8.2, 4.7], [9.9, 1.2, 3.4]]), transpose([[1.1, 2.2, 3.3], [-4.4, 5.5, -6.6], [7.7, 8.8, 9.9]]))))
+    answer: TODO
+
+
+
+
+
+  - prompt: |
+      show me a latex table of the inverse of the addition of the transpose of matrix ([[0.22, 1.11], [3.33, -4.44], [5.55, 6.66]]) and the transpose of the multiplication of matrix ([[7.77, 2.22], [-3.14, 1.59], [9.81, -8.31]]) and matrix ([[4.4, -2.1], [3.3, 0.7]])
+    expected_program: |
+      inverse(
+        add(
+          transpose([[0.22, 1.11], [3.33, -4.44], [5.55, 6.66]]),
+          transpose(multiply([[7.77, 2.22], [-3.14, 1.59], [9.81, -8.31]], [[4.4, -2.1], [3.3, 0.7]]))
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      produce latex of the multiplication of the inverse of the transpose of the addition of matrix ([[5.5, 4.4, 3.3], [2.2, 1.1, 0.9], [8.8, -7.7, 6.6]]) and the transpose of matrix ([[3.1, -1.7, 2.8], [4.9, 5.8, -6.1]]) and matrix ([[0.5, 1.5, -2.5], [3.5, -4.5, 5.5], [-6.5, 7.5, -8.5]])
+    expected_program: |
+      multiply(
+        inverse(transpose(add([[5.5, 4.4, 3.3], [2.2, 1.1, 0.9], [8.8, -7.7, 6.6]],
+                                [[3.1, -1.7, 2.8], [4.9, 5.8, -6.1], [7.7, 8.9, 0.2]]))),
+        transpose([[0.5, 1.5, -2.5], [3.5, -4.5, 5.5], [-6.5, 7.5, -8.5]])
+      )
+    answer: TODO
+
+  - prompt: |
+      generate the transpose of the multiplication of the inverse of matrix ([[9.9, 1.0], [2.2, -3.3]]) and the transpose of the multiplication of matrix ([[1.4, 2.6, -3.8], [4.2, 5.1, -6.0]]) and matrix ([[7.7, -8.8], [9.9, 1.1], [-2.2, 3.3]])
+    expected_program: |
+      transpose(
+        multiply(
+          inverse([[9.9, 1.0], [2.2, -3.3]]),
+          transpose(multiply([[1.4, 2.6, -3.8], [4.2, 5.1, -6.0]],
+                            [[7.7, -8.8], [9.9, 1.1], [-2.2, 3.3]]))
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      output the inverse of the addition of matrix ([[1.1, 0.3, -0.7], [1.4, 5.9, 2.2], [-3.8, 6.7, 4.4]]) and the transpose of the inverse of matrix ([[7.7, 5.6, -4.5], [3.3, 2.2, 1.1], [9.8, -4.1, 3.0]])
+    expected_program: |
+      inverse(
+        add(
+          [[1.1, 0.3, -0.7], [1.4, 5.9, 2.2], [-3.8, 6.7, 4.4]],
+          transpose(inverse([[7.7, 5.6, -4.5], [3.3, 2.2, 1.1], [9.8, -4.1, 3.0]]))
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      give me the sum of the transpose of the inverse of the multiplication of matrix ([[0.7, -1.3], [2.6, 5.5]]) and matrix ([[8.8, 3.1], [-4.4, 2.2]]) and the transpose of matrix ([[1.1, 2.4], [-3.7, 6.6]])
+    expected_program: |
+      add(
+        transpose(inverse(multiply([[0.7, -1.3], [2.6, 5.5]], [[8.8, 3.1], [-4.4, 2.2]]))),
+        transpose([[1.1, 2.4], [-3.7, 6.6]])
+      )
+    answer: TODO
+
+  - prompt: |
+      show me a latex representation of the inverse of the transpose of the multiplication of the addition of matrix ([[4.5, -2.1, 3.3], [9.9, 8.8, 7.7], [-1.1, -2.2, -3.3]]) and matrix ([[6.6, -7.7, 8.8], [0.4, 1.9, -5.2], [2.7, -3.3, 4.4]]) and matrix ([[5.1, -4.2, 3.8], [-2.5, 7.7, 1.1], [6.3, -8.9, 0.5]])
+    expected_program: |
+      inverse(
+        transpose(
+          multiply(
+            add(
+              [[4.5, -2.1, 3.3], [9.9, 8.8, 7.7], [-1.1, -2.2, -3.3]],
+              [[6.6, -7.7, 8.8], [0.4, 1.9, -5.2], [2.7, -3.3, 4.4]]
+            ),
+            [[5.1, -4.2, 3.8], [-2.5, 7.7, 1.1], [6.3, -8.9, 0.5]]
+          )
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      generate the transpose of the addition of the inverse of the multiplication of matrix ([[1.3, 0.4], [-5.6, 3.3]]) and matrix ([[7.2, 1.1], [2.8, -9.4]]) and the transpose of the inverse of matrix ([[4.1, -2.7], [3.3, 6.9]])
+    expected_program: |
+      transpose(
+        add(
+          inverse(multiply([[1.3, 0.4], [-5.6, 3.3]], [[7.2, 1.1], [2.8, -9.4]])),
+          transpose(inverse([[4.1, -2.7], [3.3, 6.9]]))
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      produce a latex table of the addition of the inverse of the transpose of matrix ([[3.14, -2.71], [1.61, -0.57]]) and the multiplication of matrix ([[9.1, 8.4], [-7.6, 6.5]]) and matrix ([[5.4, -3.3], [2.2, 1.1]])
+    expected_program: |
+      add(
+        inverse(transpose([[3.14, -2.71], [1.61, -0.57]])),
+        multiply([[9.1, 8.4], [-7.6, 6.5]], [[5.4, -3.3], [2.2, 1.1]])
+      )
+    answer: TODO
+
+  - prompt: |
+      output a latex table of the inverse of the transpose of the inverse of the sum of matrix ([[6.2, -3.8, 2.4], [1.3, 9.4, -7.2], [4.7, -6.6, 5.9]]) and matrix ([[8.9, 0.1, -1.1], [2.2, 4.4, -8.8], [7.1, 3.3, 9.9]])
+    expected_program: |
+      inverse(
+        transpose(
+          inverse(
+            add(
+              [[6.2, -3.8, 2.4], [1.3, 9.4, -7.2], [4.7, -6.6, 5.9]],
+              [[8.9, 0.1, -1.1], [2.2, 4.4, -8.8], [7.1, 3.3, 9.9]]
+            )
+          )
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      give me a latex table of the transpose of the addition of the transpose of the multiplication of matrix ([[0.5, -1.2], [3.3, 4.4], [5.5, -6.6]]) and matrix ([[7.7, 8.8], [-9.9, 1.1]]) and the inverse of matrix ([[2.2, -3.3], [4.4, 5.5]])
+    expected_program: |
+      transpose(
+        add(
+          transpose(multiply([[0.5, -1.2], [3.3, 4.4], [5.5, -6.6]], [[7.7, 8.8], [-9.9, 1.1]])),
+          inverse([[2.2, -3.3], [4.4, 5.5]])
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      show me the product of the inverse of the inverse of matrix ([[1.7, 2.3, 4.4], [-5.6, 3.3, 0.9], [8.8, -2.7, 6.6]]) and the transpose of the addition of matrix ([[5.1, 4.2, -3.3], [2.2, 1.4, -0.7], [9.3, -8.1, 7.2]]) and matrix ([[-1.1, 3.4, -2.5], [6.6, -7.7, 8.8], [0.1, 9.9, -4.1]])
+    expected_program: |
+      multiply(
+        inverse(inverse([[1.7, 2.3, 4.4], [-5.6, 3.3, 0.9], [8.8, -2.7, 6.6]])),
+        transpose(add([[5.1, 4.2, -3.3], [2.2, 1.4, -0.7], [9.3, -8.1, 7.2]],
+                      [[-1.1, 3.4, -2.5], [6.6, -7.7, 8.8], [0.1, 9.9, -4.1]]))
+      )
+    answer: TODO
+
+  - prompt: |
+      generate latex of the inverse of the product of the transpose of the addition of matrix ([[4.4, 2.2], [3.3, -1.1]]) and matrix ([[7.6, -5.5], [9.9, 8.8]]) and the inverse of matrix ([[6.1, 1.9], [-3.7, 4.8]])
+    expected_program: |
+      inverse(
+        multiply(
+          transpose(add([[4.4, 2.2], [3.3, -1.1]], [[7.6, -5.5], [9.9, 8.8]])),
+          inverse([[6.1, 1.9], [-3.7, 4.8]])
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      output a latex table of the multiplication of the inverse of the multiplication of matrix ([[2.5, -1.1], [0.4, 3.8]]) and matrix ([[9.9, 8.3], [-6.1, -4.2]]) and the transpose of matrix ([[7.7, -3.3], [2.2, 1.1]])
+    expected_program: |
+        multiply(
+          inverse(multiply([[2.5, -1.1], [0.4, 3.8]], [[9.9, 8.3], [-6.1, -4.2]])),
+          transpose([[7.7, -3.3], [2.2, 1.1]])
+        )
+    answer: TODO
+
+  - prompt: |
+      show me a latex table of the transpose of the inverse of the inverse of the transpose of matrix ([[8.1, -7.3, 6.5], [5.7, 4.8, -3.9], [2.6, -1.1, 9.9]])
+    expected_program: |
+      transpose(inverse(inverse(transpose([[8.1, -7.3, 6.5], [5.7, 4.8, -3.9], [2.6, -1.1, 9.9]]))))
+    answer: TODO
+
+  - prompt: |
+      generate a latex table of the inverse of the transpose of the multiplication of the transpose of matrix ([[1.5, 2.7, 3.9], [-4.4, 5.5, -6.6]]) and matrix ([[7.1, 8.2], [-9.3, 1.4], [2.6, -3.7]])
+    expected_program: |
+      inverse(transpose(multiply(transpose([[1.5, 2.7, 3.9], [-4.4, 5.5, -6.6]]), [[7.1, 8.2], [-9.3, 1.4], [2.6, -3.7]])))
+    answer: TODO
+
+  - prompt: |
+      produce a latex table of the multiplication of the transpose of the addition of matrix ([[0.7, -3.6], [2.5, 4.9]]) and matrix ([[6.6, -7.7], [1.4, 0.3]]) and the inverse of matrix ([[5.5, -9.9], [8.1, -2.2]])
+    expected_program: |
+      multiply(
+        transpose(add([[0.7, -3.6], [2.5, 4.9]], [[6.6, -7.7], [1.4, 0.3]])),
+        inverse([[5.5, -9.9], [8.1, -2.2]])
+      )
+    answer: TODO
+
+  - prompt: |
+      output a latex table of the addition of the inverse of the multiplication of matrix ([[3.3, 4.4, -2.2], [5.5, -6.6, 7.7], [8.8, -9.9, 1.1]]) and [[2.4, -3.1, 4.7], [9.5, -8.6, 5.2], [0.1, -6.3, 7.9]], and the transpose of the inverse of matrix ([[2.4, -3.1, 4.7], [9.5, -8.6, 5.2], [0.1, -6.3, 7.9]])
+    expected_program: |
+      add(
+        inverse(multiply([[3.3, 4.4, -2.2], [5.5, -6.6, 7.7], [8.8, -9.9, 1.1]], [[2.4, -3.1, 4.7], [9.5, -8.6, 5.2], [0.1, -6.3, 7.9]])),
+        transpose(inverse([[2.4, -3.1, 4.7], [9.5, -8.6, 5.2], [0.1, -6.3, 7.9]]))
+      )
+    answer: TODO
+
+  - prompt: |
+      show me a latex representation of the addition of the transpose of the multiplication of the inverse of matrix ([[1.2, 3.3], [4.4, 5.5]]) and matrix ([[6.6, -7.7], [8.8, 9.9]]) and the transpose of matrix ([[-1.1, 2.2], [-3.3, 4.4]])
+    expected_program: |
+      add(
+        transpose(multiply(inverse([[1.2, 3.3], [4.4, 5.5]]), [[6.6, -7.7], [8.8, 9.9]])),
+        transpose([[-1.1, 2.2], [-3.3, 4.4]])
+      )
+    answer: TODO
+
+  - prompt: |
+      generate the inverse of the multiplication of the multiplication of matrix ([[0.5, 1.1, -2.2], [3.3, -4.4, 5.5], [6.6, 7.7, -8.8]]) and matrix ([[9.9, -1.1, 2.2], [4.4, 3.3, 0.5], [8.1, -7.2, -6.3]]) and the inverse of matrix ([[5.1, 6.2, 7.3], [1.4, -2.5, 3.6], [-4.7, 5.8, -6.9]]). Output the result as a latex table.
+    expected_program: |
+      inverse(
+        multiply(
+          multiply(
+            [[0.5, 1.1, -2.2], [3.3, -4.4, 5.5], [6.6, 7.7, -8.8]],
+            [[9.9, -1.1, 2.2], [4.4, 3.3, 0.5], [8.1, -7.2, -6.3]]
+          ),
+          inverse([[5.1, 6.2, 7.3], [1.4, -2.5, 3.6], [-4.7, 5.8, -6.9]])
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      output the transpose of the addition of the inverse of the transpose of matrix ([[3.7, -4.1, 5.9], [2.6, 0.8, -1.3], [9.3, 7.2, -8.4]]) and the multiplication of matrix ([[1.1, 2.2, -3.3], [4.4, -5.5, 6.6], [7.7, 8.8, 9.9]]) and matrix ([[0.9, 0.4, -0.2], [1.3, -2.8, 3.7], [4.1, 5.6, -6.8]])
+    expected_program: |
+      transpose(
+        add(
+          inverse(transpose([[3.7, -4.1, 5.9], [2.6, 0.8, -1.3], [9.3, 7.2, -8.4]])),
+          multiply([[1.1, 2.2, -3.3], [4.4, -5.5, 6.6], [7.7, 8.8, 9.9]],
+                  [[0.9, 0.4, -0.2], [1.3, -2.8, 3.7], [4.1, 5.6, -6.8]])
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      show me the inverse of the transpose of the inverse of the multiplication of matrix ([[2.8, 3.6], [-4.7, 5.1]]) and matrix ([[7.7, -2.3], [8.4, 1.2]])
+    expected_program: |
+      inverse(transpose(inverse(multiply([[2.8, 3.6], [-4.7, 5.1]], [[7.7, -2.3], [8.4, 1.2]]))))
+    answer: TODO
+
+  - prompt: |
+      generate the transpose of the inverse of the multiplication of the addition of matrix ([[3.14, 2.71, -1.11], [0.56, -8.2, 4.7], [9.9, 1.2, 3.4]]) and matrix ([[-1.3, 4.4, 2.2], [5.5, -6.6, 7.7], [8.8, -9.9, 0.1]]) with the transpose of matrix ([[1.1, 2.2, 3.3], [-4.4, 5.5, -6.6], [7.7, 8.8, 9.9]])
+    expected_program: |
+      transpose(
+        inverse(
+          multiply(
+            add([[3.14, 2.71, -1.11], [0.56, -8.2, 4.7], [9.9, 1.2, 3.4]],
+                [[-1.3, 4.4, 2.2], [5.5, -6.6, 7.7], [8.8, -9.9, 0.1]]),
+            transpose([[1.1, 2.2, 3.3], [-4.4, 5.5, -6.6], [7.7, 8.8, 9.9]])
+          )
+        )
+      )
+    answer: TODO
+
+  - prompt: |
+      produce latex of the inverse of the addition of the transpose of matrix ([[0.22, 1.11], [3.33, -4.44], [5.55, 6.66]]) and the transpose of the multiplication of matrix ([[7.77, 2.22], [-3.14, 1.59], [9.81, -8.31]]) and matrix ([[4.4, -2.1], [3.3, 0.7]])
+    expected_program: |
+      inverse(add(transpose([[0.22, 1.11], [3.33, -4.44], [5.55, 6.66]]),
+                  transpose(multiply([[7.77, 2.22], [-3.14, 1.59], [9.81, -8.31]],
+                                    [[4.4, -2.1], [3.3, 0.7]]))))
+    answer: TODO
+
+  - prompt: |
+      produce latex of the multiplication of the inverse of the transpose of the addition of matrix ([[5.5, 4.4, 3.3], [2.2, 1.1, 0.9], [8.8, -7.7, 6.6]]) and the transpose of matrix ([[3.1, -1.7, 2.8], [4.9, 5.8, -6.1]]) and matrix ([[0.5, 1.5, -2.5], [3.5, -4.5, 5.5], [-6.5, 7.5, -8.5]])
+    expected_program: |
+      multiply(inverse(transpose(add([[5.5, 4.4, 3.3], [2.2, 1.1, 0.9], [8.8, -7.7, 6.6]],
+                                      [[3.1, -1.7, 2.8], [4.9, 5.8, -6.1], [7.7, 8.9, 0.2]]))),
+              transpose([[0.5, 1.5, -2.5], [3.5, -4.5, 5.5], [-6.5, 7.5, -8.5]]))
+    answer: TODO
+
+  - prompt: |
+      generate latex of the transpose of the multiplication of the inverse of matrix ([[9.9, 1.0], [2.2, -3.3]]) and the transpose of the multiplication of matrix ([[1.4, 2.6, -3.8], [4.2, 5.1, -6.0]]) and matrix ([[7.7, -8.8], [9.9, 1.1], [-2.2, 3.3]])
+    expected_program: |
+      transpose(multiply(inverse([[9.9, 1.0], [2.2, -3.3]]),
+                        transpose(multiply([[1.4, 2.6, -3.8], [4.2, 5.1, -6.0]],
+                                            [[7.7, -8.8], [9.9, 1.1], [-2.2, 3.3]]))))
+    answer: TODO
+
+  - prompt: |
+      output a latex table of the inverse of the addition of matrix ([[1.1, 0.3, -0.7], [1.4, 5.9, 2.2], [-3.8, 6.7, 4.4]]) and the transpose of the inverse of matrix ([[7.7, 5.6, -4.5], [3.3, 2.2, 1.1], [9.8, -4.1, 3.0]])
+    expected_program: |
+      inverse(add([[1.1, 0.3, -0.7], [1.4, 5.9, 2.2], [-3.8, 6.7, 4.4]],
+                          transpose(inverse([[7.7, 5.6, -4.5], [3.3, 2.2, 1.1], [9.8, -4.1, 3.0]]))))
+    answer: TODO
+
+  - prompt: |
+      give me a latex table of the addition of the transpose of the inverse of the multiplication of matrix ([[0.7, -1.3], [2.6, 5.5]]) and matrix ([[8.8, 3.1], [-4.4, 2.2]]) and the transpose of matrix ([[1.1, 2.4], [-3.7, 6.6]])
+    expected_program: |
+      add(transpose(inverse(multiply([[0.7, -1.3], [2.6, 5.5]], [[8.8, 3.1], [-4.4, 2.2]]))),
+          transpose([[1.1, 2.4], [-3.7, 6.6]]))
+    answer: TODO
+
+  - prompt: |
+      show me the inverse of the transpose of the multiplication of the addition of matrix ([[4.5, -2.1, 3.3], [9.9, 8.8, 7.7], [-1.1, -2.2, -3.3]]) and matrix ([[6.6, -7.7, 8.8], [0.4, 1.9, -5.2], [2.7, -3.3, 4.4]]) and matrix ([[5.1, -4.2, 3.8], [-2.5, 7.7, 1.1], [6.3, -8.9, 0.5]])
+    expected_program: |
+      inverse(transpose(multiply(add([[4.5, -2.1, 3.3], [9.9, 8.8, 7.7], [-1.1, -2.2, -3.3]],
+                                    [[6.6, -7.7, 8.8], [0.4, 1.9, -5.2], [2.7, -3.3, 4.4]]),
+                            [[5.1, -4.2, 3.8], [-2.5, 7.7, 1.1], [6.3, -8.9, 0.5]])))
+    answer: TODO
+
+  - prompt: |
+      generate the transpose of the addition of the inverse of the multiplication of matrix ([[1.3, 0.4], [-5.6, 3.3]]) and matrix ([[7.2, 1.1], [2.8, -9.4]]) and the transpose of the inverse of matrix ([[4.1, -2.7], [3.3, 6.9]]), and show it as latex.
+    expected_program: |
+      transpose(add(inverse(multiply([[1.3, 0.4], [-5.6, 3.3]], [[7.2, 1.1], [2.8, -9.4]])),
+                    transpose(inverse([[4.1, -2.7], [3.3, 6.9]]))))
+    answer: TODO
+
+  - prompt: |
+      produce a latex table of the addition of the inverse of the transpose of matrix ([[3.14, -2.71], [1.61, -0.57]]) and the multiplication of matrix ([[9.1, 8.4], [-7.6, 6.5]]) and matrix ([[5.4, -3.3], [2.2, 1.1]])
+    expected_program: |
+      add(inverse(transpose([[3.14, -2.71], [1.61, -0.57]])),
+                  multiply([[9.1, 8.4], [-7.6, 6.5]], [[5.4, -3.3], [2.2, 1.1]]))
+    answer: TODO
+
+
+  - prompt: |
+      generate a latex table of the multiplication of matrix ([[1.2, -0.5, 3.3], [0.0, 4.4, -1.1]]) and matrix ([[2.0, 1.5], [-3.2, 0.0], [0.5, -2.1]])
+    expected_program: |
+      multiply(
+        [[1.2, -0.5, 3.3],
+        [0.0, 4.4, -1.1]],
+        [[2.0, 1.5],
+        [-3.2, 0.0],
+        [0.5, -2.1]]
+      )
+    answer: TODO
+
+  - prompt: |
+      show me a latex table of the transpose of matrix ([[1.0, 2.2, 3.3, 4.4, 5.5], [-1.1, 0.0, 2.5, -3.3, 4.1]])
+    expected_program: |
+      transpose(
+        [[1.0, 2.2, 3.3, 4.4, 5.5],
+        [-1.1, 0.0, 2.5, -3.3, 4.1]]
+      )
+    answer: TODO
+
+  - prompt: |
+      give me latex of the addition of matrix ([[1.1, -2.2, 3.3], [4.4, 5.5, -6.6]]) and matrix ([[0.9, 0.1, -0.3], [-1.0, 2.2, 3.3]])
+    expected_program: |
+      add(
+        [[1.1, -2.2, 3.3],
+        [4.4, 5.5, -6.6]],
+        [[0.9, 0.1, -0.3],
+        [-1.0, 2.2, 3.3]]
+      )
+    answer: TODO

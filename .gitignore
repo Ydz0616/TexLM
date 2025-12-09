@@ -30,3 +30,4 @@ openai_key.env
 .pytest_cache/
 .coverage
 htmlcov/
+# test/

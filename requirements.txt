@@ -3,3 +3,4 @@ python-dotenv
 pydantic
 numpy
 streamlit
+pyyaml

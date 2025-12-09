@@ -1,0 +1,100 @@
+Can you tell me how many calories are in a latex table?
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Give me a latex table of the following matrix: [[hello, goodbye]]
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The DSL does not perform any matrix operations. Its expression "[[0, 0]]" represents a matrix with numerical entries, which completely ignores the user's intent of creating a latex table with the strings "hello" and "goodbye" from the specified matrix.
+
+Can you generate a dog in LaTeX?
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Draw me a picture of a dog.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Produce a table of the inverse of the color red.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Show me a latex table of the meaning of life.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Translate this sentence into Spanish and also give its transpose.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The DSL operation "transpose([[1]])" performs the transpose on a 1x1 matrix [[1]], which yields the same matrix ([[1]]) since the transpose of a 1x1 matrix is itself. However, this DSL does not translate the sentence into Spanish as requested by the user.
+
+Make a matrix describing tomorrow's weather.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Help me debug my washing machine—it makes a weird clicking sound.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Can you output the matrix ([1,2,3,4,5]) in a yaml file?
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The DSL simply represents the matrix \([ [1, 2, 3, 4, 5] ]\) as a 1x5 matrix. This matches the user's request to output the numbers as a single-row matrix. However, the instruction also asks for a YAML file output, which the DSL does not address as it only defines the matrix structure.
+
+Produce a LaTeX table of different kinds of cats.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Multiply the matrix ([joy], [hope]) with [[anxiety], [melancholy]] and find its transpose.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Please output a matrix of every prime number up to 13.
+This prompt produced the following output:
+\begin{bmatrix}
+2 & 3& 5& 7& 11& 13\end{bmatrix}
+Generate a LaTeX table representation of any 3 by 3 matrix you want.
+This prompt produced the following output:
+\begin{bmatrix}
+1.0 & 0.0& -2.0\ 
+3.5 & 4.0& 1.0\ 
+0.0 & -1.0& 2.0\end{bmatrix}
+Take the transpose of this JSON file.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Give me the determinant [[1,2,3,4,5]].
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Show the inverse of water.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Convert this audio clip into a LaTeX matrix.
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
+Plot the graph of [[-3.2, 123.2, 6.1], [9.2, -0.3, -0.12]].
+This prompt produced the following output:
+\begin{bmatrix}
+-3.2 & 123.2& 6.1\ 
+9.2 & -0.3& -0.12\end{bmatrix}
+Can you explain freshman-level physics but as a latex?
+Outputted error:
+	=== FAILED TO GENERATE VALID RESULT ===
+	Reason: The model could not parse a valid matrix from your input. See the thought process.
+
