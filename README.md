@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="./logo.png" alt="TexLM logo" width="160">
+  <img src="./logo.png" alt="TexLM logo" width="300">
 </p>
 
 <h1 align="center">TexLM</h1>
