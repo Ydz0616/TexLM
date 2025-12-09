@@ -268,8 +268,13 @@ kubectl apply -f k8s/deployment.yaml
 
 ## 📜 License
 
-Educational project for UCSD CSE291P.
+This project is released under the **MIT License**.  
+Copyright © 2025 **Yuandong Zhang** and **Matthew Thomas**.
 
-Citation:
-> Y. Zhang, TexLM: Natural Language → Matrix DSL → LaTeX, 2025  
+If you use TexLM or build upon its ideas in coursework, research, or publications,  
+please cite the project:
+
+> Y. Zhang, M. Thomas. *TexLM: Synthesizing Reliable Latex Matrix from Natural Language Input*, 2025.  
 > https://github.com/Ydz0616/TexLM
+
+
