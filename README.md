@@ -1,258 +1,275 @@
-# TexLM: Matrix Operations with Natural Language
 
-A modular system that uses LLMs to parse natural language matrix operation requests, generate a domain-specific language (DSL), and render results. Built with OpenAI's Responses API and structured outputs.
+<p align="center">
+  <img src="./logo.png" alt="TexLM logo" width="160">
+</p>
 
-## Architecture Overview
-
-The system follows a clean pipeline:
-
-1. **Natural Language Decomposition**  
-   Parse user's natural language input into structured components:
-   - `formatting`: How the output should be formatted (e.g., "latex table with width = 70%")
-   - `instruction`: Matrix operations in clear sequence (e.g., "transpose then inverse")
-   - `matrix`: Matrix data normalized to Python list format
-
-2. **DSL Generation**  
-   Generate a grammar-constrained DSL program from the instruction and matrix data.  
-   The DSL supports operations like `transpose`, `inverse`, `multiply`, `add` with nested compositions.
-
-3. **DSL Execution** (Future)  
-   Parse the DSL into AST and execute the matrix operations.
-
-4. **Rendering** (Future)  
-   Format the result matrix according to the formatting requirements (e.g., LaTeX table).
+<h1 align="center">TexLM</h1>
+<p align="center">
+  Natural Language → Matrix DSL → Verifiable LaTeX
+</p>
+<p align="center">
+  <em>CSE291P course project · LLM + DSL for matrix operations</em>
+</p>
 
 ---
 
-## Project Structure
+## 🌐 Project Website
 
-```text
+**Live demo:**  
+http://47.76.240.140:32000/
+
+---
+
+## ✨ What is TexLM?
+
+TexLM is an end‑to‑end system that converts **natural‑language matrix instructions** into:
+
+1. A **grammar‑constrained matrix DSL**  
+2. A **NumPy‑evaluated numerical result**
+3. A **verifiable LaTeX snippet** using a constrained LaTeX core pattern
+
+The pipeline is fully modular and supports:
+- LLM‑based decomposition → DSL generation
+- LLM verifier ensuring DSL matches original user intent
+- AST execution with NumPy
+- Constraint‑guided LaTeX rendering
+- Streamlit web UI with feedback mailer
+- Docker + Kubernetes deployment
+
+Originally developed as a course project for **UCSD CSE291P**.
+
+---
+
+## 🧠 System Pipeline
+
+### 1. Natural Language → DSL (LLM)
+The system parses the user’s natural language request into:
+- `dsl`: core matrix operation expression  
+- `formatting`: requested output style  
+- `reasoning`: chain‑of‑thought describing how DSL was produced  
+
+Implementations:  
+`dsl/generator.py`, prompts in `config/prompts.py`
+
+---
+
+### 2. DSL Verification (LLM)
+Ensures:
+- DSL matches **the original user request**, not a paraphrase
+- No hallucinated operations
+- Dimensions or matrix counts not invented
+
+Returns:
+```json
+{
+  "is_valid": true/false,
+  "explanation": "why"
+}
+```
+
+File: `dsl/verify.py`
+
+---
+
+### 3. DSL Execution (AST + NumPy)
+Supported operations:
+- `add(A, B)`
+- `multiply(A, B)`
+- `transpose(A)`
+- `inverse(A)`
+- Nested compositions (arbitrary depth)
+
+Execution flow:
+1. Parse DSL → AST  
+2. Validate matrix shapes  
+3. Run via NumPy  
+4. Return result or error  
+
+File: `dsl/evaluate.py`
+
+---
+
+### 4. LaTeX Core Generation
+The numerical matrix is converted into a **LaTeX "core pattern"**, defining:
+- Exact brackets
+- Exact row/column structure
+- Allowed float formatting patterns  
+
+File: `constraints/generate_constraint.py`
+
+---
+
+### 5. Final LaTeX Rendering (LLM)
+The LaTeX core is used as a **hard constraint**.  
+LLM must produce a LaTeX snippet *consistent* with the core.
+
+File: `renderers/latex.py`
+
+---
+
+### 6. UI (Streamlit App)
+Features:
+- Live chat  
+- Expandable reasoning trace  
+- Pretty LaTeX output  
+- Feedback button that emails full chat log  
+
+File: `app.py`
+
+---
+
+### 7. Email Feedback System
+`utils/mailer.py` sends feedback emails with:
+- User message
+- DSL
+- Trace
+- LaTeX
+- Full UI session transcript (attachment)
+
+---
+
+### 8. Deployment (Docker + Kubernetes)
+- Dockerfile builds Streamlit app container  
+- Kubernetes manifest (`k8s/deployment.yaml`) used for cloud hosting  
+- Supports environment variables + Kubernetes secrets  
+
+---
+
+## 🗂 Project Structure
+
+```
 TexLM/
-├── main.py                    # Entry point: orchestrates the pipeline
-├── config/                    # Configuration and prompts
-│   ├── __init__.py           # Module exports
-│   ├── config.py             # OpenAI client setup, env loading
-│   └── prompts.py            # Centralized LLM prompts (all hardcoded prompts here)
-├── renderers/                 # LLM-based rendering and decomposition
-│   ├── decompose.py          # Natural language → structured Decomposition
-│   └── latex.py              # Matrix → LaTeX formatting
-├── dsl/                       # Domain-Specific Language
-│   ├── grammar.py            # Lark grammar definition for DSL
-│   ├── generator.py          # LLM-based DSL generation (grammar-constrained)
-│   ├── parser.py             # DSL string → AST (for future execution)
-│   └── executor.py           # AST execution (for future implementation)
-├── tasks/                     # Task execution (for future use)
-│   ├── base.py               # BaseTask abstract class (execute method)
-│   └── transpose.py          # Example task implementation
-├── requirements.txt          # Python dependencies
-├── openai_key.env            # API key (not committed)
-└── README.md                  # This file
+├── app.py                  # Streamlit web UI
+├── main.py                 # Core end-to-end pipeline
+├── config/
+│   ├── config.py           # API key/env loader
+│   └── prompts.py          # All LLM prompts
+├── constraints/
+│   └── generate_constraint.py
+├── dsl/
+│   ├── grammar.py          # DSL grammar definition
+│   ├── generator.py        # NL → DSL
+│   ├── verify.py           # DSL verifier
+│   └── evaluate.py         # AST execution
+├── renderers/
+│   ├── decompose.py
+│   └── latex.py            # LaTeX rendering with constraints
+├── utils/
+│   ├── mailer.py           # Email sender
+│   └── ...
+├── k8s/
+│   └── deployment.yaml
+├── Dockerfile
+├── requirements.txt
+└── README.md               # This file
 ```
 
 ---
 
-## Prerequisites
-
-- Python 3.10+ (3.12 recommended)
-- OpenAI API key
-- Dependencies: `pip install -r requirements.txt`
-
-Required packages:
-- `openai` - OpenAI API client
-- `python-dotenv` - Environment variable loading
-- `pydantic` - Structured data validation
-
----
-
-## Setup
+## 🚀 Getting Started
 
 ### 1. Install Dependencies
-
 ```bash
+git clone https://github.com/Ydz0616/TexLM
+cd TexLM
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure API Key
+---
 
-Create `openai_key.env` in the project root:
+### 2. Environment Variables
 
-```env
-OPENAI_API_KEY=sk-your-key-here
+#### Local `.env` / `openai_key.env`
 ```
-
-**Important**: This file is not committed to git. The `config/config.py` loads it automatically.
-
-### 3. Run the Demo
-
-```bash
-python main.py
-```
-
-Example output:
-
-```text
-=== User Message ===
-User Message: give me a latex table of the inverse of the transpose of the multiplication of matrix ([1,2] ,[3,4]) and  matrix ([4,5] ,[6,7])
-
-=== Decomposition ===
-Formatting: latex table
-Instruction: multiply then transpose then inverse
-Matrix: [[1,2],[3,4]]; [[4,5],[6,7]]
-
-=== DSL ===
-inverse(transpose(multiply([[1,2],[3,4]], [[4,5],[6,7]])))
+OPENAI_API_KEY=your-key
+OPENAI_BASE_URL=https://your-relay/v1
+EMAIL_USER=...
+EMAIL_PASS=...
 ```
 
 ---
 
-## How It Works
-
-### Step 1: Natural Language Decomposition
-
-The system uses an LLM to parse natural language input into structured components:
-
-```python
-from renderers.decompose import decompose_user_message
-
-decomp = decompose_user_message(client, user_msg)
-# Returns: Decomposition(formatting="latex table", 
-#                        instruction="multiply then transpose then inverse",
-#                        matrix="[[1,2],[3,4]]; [[4,5],[6,7]]")
+## 🖥 Run Web UI
 ```
-
-The LLM is instructed to:
-- Extract formatting requirements (defaults to "latex matrix" if unspecified)
-- Parse operation sequence correctly (handles natural language like "inverse of transpose")
-- Normalize matrix data to Python list format
-
-### Step 2: DSL Generation
-
-The system generates a grammar-constrained DSL program:
-
-```python
-from dsl.generator import generate_dsl
-
-dsl = generate_dsl(client, decomp.instruction, decomp.matrix)
-# Returns: "inverse(transpose(multiply([[1,2],[3,4]], [[4,5],[6,7]])))"
+streamlit run app.py
 ```
-
-The DSL generator:
-- Uses OpenAI's grammar-constrained decoding to ensure valid DSL syntax
-- Supports nested operations: `transpose`, `inverse`, `multiply`, `add`
-- Handles multiple matrices automatically
-
-### Step 3: DSL Grammar
-
-The DSL is defined by a Lark grammar (see `dsl/grammar.py`):
-
-```
-start: call | matrix
-
-call: fname LPAR start RPAR
-    | "multiply" LPAR start COMMA SP start RPAR
-    | "add"      LPAR start COMMA SP start RPAR
-
-fname: "transpose" | "inverse"
-
-matrix: [[1,2],[3,4]]  # Python list format
-```
-
-Valid DSL examples:
-- `transpose([[1,2],[3,4]])`
-- `inverse(transpose([[1,2],[3,4]]))`
-- `multiply([[1,2],[3,4]], [[5,6],[7,8]])`
-- `transpose(multiply([[1,0],[2,3]], [[4],[5]]))`
+Visit:  
+http://localhost:8501/
 
 ---
 
-## Configuration
-
-### Centralized Prompts
-
-All LLM prompts are centralized in `config/prompts.py` for easy maintenance:
-
-- `DECOMPOSE_SYSTEM_PROMPT` - Instructions for natural language decomposition
-- `DSL_GENERATOR_SYSTEM_PROMPT` - Instructions for DSL generation
-- `LATEX_RENDER_SYSTEM_PROMPT` - Instructions for LaTeX rendering
-- Field descriptions for structured outputs
-
-### Client Configuration
-
-The OpenAI client is configured in `config/config.py`:
-
-```python
-from config.config import get_client
-
-client = get_client()  # Returns OpenAI() with API key from env
-```
-
----
-
-## Extending the System
-
-### Adding New Operations
-
-To add a new matrix operation (e.g., `determinant`):
-
-1. **Update the DSL grammar** (`dsl/grammar.py`):
-   ```python
-   fname: "transpose" | "inverse" | "determinant"
-   ```
-
-2. **Update prompts** (`config/prompts.py`):
-   - Add examples in `DSL_GENERATOR_FEW_SHOT`
-   - Update instruction parsing rules in `DECOMPOSE_INSTRUCTION_DESCRIPTION`
-
-3. **Implement execution** (future):
-   - Add executor function in `dsl/executor.py`
-   - Update `dsl/parser.py` if needed
-
-### Customizing Prompts
-
-Edit `config/prompts.py` to modify:
-- How natural language is parsed
-- How DSL is generated
-- How results are formatted
-
-All prompts are hardcoded constants for easy maintenance and version control.
-
----
-
-## Future Work
-
-The current implementation focuses on:
-- ✅ Natural language parsing
-- ✅ DSL generation with grammar constraints
-- 🔄 DSL parsing to AST (parser exists, needs integration)
-- 🔄 Matrix operation execution (executor exists, needs integration)
-- 🔄 LaTeX rendering (renderer exists, needs integration)
-
----
-
-## Notes
-
-- **Structured Outputs**: We use OpenAI's `responses.parse()` for reliable structured data extraction
-- **Grammar Constraints**: DSL generation uses grammar-constrained decoding to ensure valid syntax
-- **Prompt Management**: All prompts are centralized in `config/prompts.py` for easy updates
-- **Error Handling**: The system handles ambiguous user input by making clear, specific decisions
-- **Modularity**: Each component (decomposition, generation, execution, rendering) is independent
-
----
-
-## Example Usage
+## 🧪 Run Programmatically
 
 ```python
 from main import run_demo
 
-user_msg = "give me a latex table of the inverse of the transpose of matrix ([1,2] ,[3,4])"
-result = run_demo(user_msg)
+msg = "give me a latex table of inverse of transpose of matrix ([1,2],[3,4])"
 
-print(result["decomposition"])  # Structured parsing result
-print(result["dsl"])             # Generated DSL program
+res = run_demo(msg)
+
+print(res["dsl"])
+print(res["final_latex"])
 ```
 
 ---
 
-## License
+## 🐳 Docker
 
-This is a demo project for educational purposes.
+```
+docker build -t texlm .
+docker run -p 8501:8501 \
+  -e OPENAI_API_KEY=... \
+  texlm
+```
+
+---
+
+## ☸ Kubernetes
+`k8s/deployment.yaml` includes:
+- deployment
+- env var injection
+- image `yz743/texlm:v0.2.1`
+
+Apply:
+```
+kubectl apply -f k8s/deployment.yaml
+```
+
+---
+
+## 🔧 Extending TexLM
+
+### Add new matrix ops:
+- Update `dsl/grammar.py`
+- Implement logic in `dsl/evaluate.py`
+- Update prompts
+
+### Improve LaTeX rendering:
+- Add custom table styles
+- pmatrix / bmatrix switching
+- Align environments
+
+### Improve verification rules:
+- Enforce stricter dimension checks
+- Validate matrix counts / shapes
+
+---
+
+## ⚠️ Known Limitations
+
+- Natural language is ambiguous — system may need rephrasing  
+- DSL grammar currently supports a limited set of operations  
+- Numerical precision may affect LaTeX formatting  
+- Requires an LLM backend for DSL + rendering  
+
+---
+
+## 📜 License
+
+Educational project for UCSD CSE291P.
+
+Citation:
+> Y. Zhang, TexLM: Natural Language → Matrix DSL → LaTeX, 2025  
+> https://github.com/Ydz0616/TexLM
