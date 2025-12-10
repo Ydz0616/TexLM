@@ -72,7 +72,6 @@ with col_center:
     st.markdown('<div class="sub-header">Natural Language to Overleaf Code</div>', unsafe_allow_html=True)
 
 with col_right:
-    # 加一点垂直留白，让按钮稍微往下一点，对齐标题文字（可选）
     st.write("") 
     if st.button("🐞", help="Report Issue"):
         feedback_modal()
